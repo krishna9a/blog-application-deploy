@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Filtered Posts</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .post {
+            width: 45%;
+            margin-right: 2%;
+            border: 1px solid #000000;
+            padding: 10px;
+            margin: 10px;
+            float: left;
+        }
+
+        .post-content{
+             max-height: 3.5em; /* Set a maximum height for 3.5 lines /
+            overflow: hidden; / Hide overflow */
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div>
+        <a th:href="@{/}">Home</a>
+    </div>
+    <h2>Filtered Posts</h2>
+
+    <div th:each="post : ${post}" class="post">
+        <h2 th:text="${post.title}"></h2>
+        <p>Author: <span th:text="${post.author}"></span></p>
+        <p>Published At: <span th:text="${post.publishedAt}" ></span></p>
+        <p th:text="${post.excerpt}"></p>
+        <div>
+            Tags:
+            <span th:each="t,iterStat : ${post.tag}">
+            <span th:text="${t.name}"></span>
+            <span th:if="${!iterStat.last}">, </span>
+        </span>
+        </div>
+        <a th:href="@{/readmore/{postId}(postId=${post.id})}">Read more...</a>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+        <ul>
+            <li th:if="${currentPage > 0}">
+                <a th:href="@{/filter(page=0, authors=${authors}, tags=${tags})}">&laquo; First</a>
+            </li>
+            <li th:if="${currentPage > 0}">
+                <a th:href="@{/filter(page=${currentPage - 1}, authors=${authors}, tags=${tags})}">‹ Previous</a>
+            </li>
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{/filter(page=${currentPage + 1}, authors=${authors}, tags=${tags})}">Next ›</a>
+            </li>
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{/filter(page=${totalPages - 1}, authors=${authors}, tags=${tags})}">Last &raquo;</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

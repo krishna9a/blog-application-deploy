@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        div.checkbox-group {
+            margin-bottom: 15px;
+        }
+
+        div.checkbox-group input {
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<form th:action="@{/filter}" method="get">
+
+    <!-- Authors Checkboxes -->
+    <div class="checkbox-group">
+        <label>Select Authors:</label>
+        <div th:each="author : ${authors}">
+            <input type="checkbox" name="authors" th:value="${author}" th:id="'author_' + ${author}" />
+            <label th:for="'author_' + ${author}" th:text="${author}"></label><br />
+        </div>
+    </div>
+
+    <!-- Tags Checkboxes -->
+    <div class="checkbox-group">
+        <label>Select Tags:</label>
+        <div th:each="tag : ${tags}">
+            <input type="checkbox" name="tags" th:value="${tag.id}" th:id="'tag_' + ${tag.id}" />
+            <label th:for="'tag_' + ${tag.id}" th:text="${tag.name}"></label><br />
+        </div>
+    </div>
+
+    <!-- Filter Button -->
+    <div>
+        <button type="submit">Filter</button>
+    </div>
+
+</form>
+
+</body>
+</html>

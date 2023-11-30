@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Comment</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/comments/{postId}(postId=${existingComment.id})}" method="post">
+        <label>Update comment</label> <br>
+        <input type="text" th:field="${existingComment.comment}">
+        <button type="submit">Update Comment</button>
+    </form>
+</div>
+</body>
+</html>

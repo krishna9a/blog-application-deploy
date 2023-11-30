@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog :: New Post</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <form th:action="@{/submission}" th:object="${post}" method="post">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="excerpt">Excerpt:</label>
+            <input type="text" class="form-control" id="excerpt" th:field="*{excerpt}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Post:</label>
+            <textarea class="form-control" id="content" th:field="*{content}" required></textarea>
+        </div>
+
+        <div class="form-group">
+<!--            <label for="author">Author:</label>-->
+            <input type="hidden" class="form-control" id="author" th:field="*{author}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="tag">Tags: </label>
+            <input type="text" class="form-control" id="tag" name="existingTags"  >
+        </div>
+
+        <button type="submit" class="btn btn-primary">Publish</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+</body>
+</html>

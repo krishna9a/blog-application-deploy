@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog Post</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1em 0;
+    text-align: center;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.post {
+    width: 45%;
+    margin-right: 2%;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin: 10px;
+    float: left;
+    background-color: #fff; /* White background */
+}
+
+.post h2 {
+    color: #333; /* Dark text color */
+}
+
+.post p {
+    color: #555; /* Slightly lighter text color */
+}
+
+.logout-button {
+            background-color: grey;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #555; /* Darker color on hover */
+        }
+.btn-primary {
+    background-color: lightgrey;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.button-container a {
+    color: black;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination form {
+    display: inline;
+    margin-right: 10px;
+}
+
+.pagination button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #555; /* Darker color on hover */
+}
+
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Blog Posts</h1>
+</header>
+
+<div class="container">
+ <div>
+     <div>
+        <span th:if="${user}==null">
+            <form th:action="@{/showMyLoginPage}">
+                <button type="submit">Login</button>
+            </form>
+            <form th:action="@{/signup}">
+                <button type="submit">signup</button>
+            </form>
+        </span>
+        <span th:if="${user}!=null">
+            <h3>Welcome <span th:text="${user.name}" /></h3>
+            <form th:action="@{/logout}" th:method="post">
+                <button type="submit">logout</button>
+            </form>
+        </span>
+     </div>
+
+     <form th:action="@{/post}" >
+         <button type="submit">New Post</button>
+     </form>
+ </div>
+    <br>
+    <form th:action="@{/}" method="get">
+        <label for="searchTerm">Search:</label>
+        <input type="text" id="searchTerm" name="searchTerm" th:value="${searchTerm}" placeholder="Enter search term" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <br>
+
+    <!-- Sorting and Pagination -->
+    <div class="button-container">
+        <a th:href="@{'/page/' + ${currentPage} + '?sortField=publishedAt&sortDir=' + ${reserveSortDir}}"
+           class="btn btn-primary btn-sm mb-3">
+            sort
+        </a>
+        <a th:href="@{/option}" class="btn btn-primary btn-sm mb-3">filter button</a>
+    </div>
+
+    <div th:each="post : ${post}" class="post">
+        <h2 th:text="${post.title}"></h2>
+        <p>Author: <span th:text="${post.author}"></span></p>
+        <p>Published At: <span th:text="${post.publishedAt}" ></span></p>
+        <p th:text="${post.excerpt}"></p>
+        <div>
+            Tags:
+            <span th:each="t,iterStat : ${post.tag}">
+            <span th:text="${t.name}"></span>
+            <span th:if="${!iterStat.last}">, </span>
+        </span>
+        </div>
+        <a th:href="@{/readmore/{postId}(postId=${post.id})}" class="btn btn-primary btn-sm mb-3">Read more...</a>
+    </div>
+
+    <div class="pagination">
+        <form th:if="${currentPage > 1}" th:action="@{'/page/' + ${currentPage - 1}}" method="get">
+            <input type="hidden" name="sortField" th:value="${sortField}"/>
+            <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+            <input type="hidden" name="searchTerm" th:if="${searchTerm}" th:value="${searchTerm}"/>
+            <button type="submit">Previous</button>
+        </form>
+
+        <form th:if="${currentPage < totalPages}" th:action="@{'/page/' + ${currentPage + 1}}" method="get">
+            <input type="hidden" name="sortField" th:value="${sortField}"/>
+            <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+            <input type="hidden" name="searchTerm" th:if="${searchTerm}" th:value="${searchTerm}"/>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

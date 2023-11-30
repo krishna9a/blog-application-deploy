@@ -1,0 +1,21 @@
+<!-- post_update.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Your head content here -->
+    <title>Update Post</title>
+</head>
+<body>
+<h2>Update Post</h2>
+<form th:action="@{'/updatePost/' + ${post.id}}" th:object="${post}" method="post">
+
+    <input type="hidden" th:field="*{id}" />
+    <label>Title: <input type="text" th:field="*{title}" /></label><br/>
+    <input type="hidden" th:field="*{author}" />
+    <label>Excerpt: <input type="text" th:field="*{excerpt}" /></label><br/>
+    <label>Body: <textarea th:field="*{content}"></textarea></label><br/>
+    <label>Tag: <input type="text" name="updateTag"  th:value="${tagValue}"></label>
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>
