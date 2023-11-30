@@ -17,6 +17,7 @@ public class Post {
     private String title;
     private String excerpt;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
     private String author;
     private LocalDateTime publishedAt;
